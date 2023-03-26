@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace DLL.EntityFramework
 {
-    public class GroupDTO
+    public class CourseDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual TeacherDTO Teacher { get; set; }
-        public virtual ICollection<CourseDTO> Courses { get; set; }
-        public virtual ICollection<UserDTO> Users { get; set; }
+        public virtual GroupDTO Group { get; set; }
+        //zajecia -> classes
+        public virtual ICollection<ClassesDTO> Classes { get; set; }
     }
 }
