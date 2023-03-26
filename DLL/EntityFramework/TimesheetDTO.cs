@@ -12,7 +12,7 @@ namespace DLL.EntityFramework
         public DateTime Date { get; }
         public bool IsPresence { get; }
         public float Mark { get; }
-        public virtual UserDTO User { get; }
+        public virtual StudentDTO User { get; }
 
         public TimesheetDTO(DateTime date,bool isPresence,float mark) 
         {

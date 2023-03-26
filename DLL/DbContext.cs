@@ -7,7 +7,7 @@ namespace DLL
     {
         public DBContext() { }
 
-        public virtual DbSet<UserDTO> Users { get; set; }
+        public virtual DbSet<StudentDTO> Users { get; set; }
         public virtual DbSet<GroupDTO> Groups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -21,9 +21,9 @@ namespace DLL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserDTO>(entity =>
+            modelBuilder.Entity<StudentDTO>(entity =>
             {
-                entity.ToTable("Users");
+                entity.ToTable("Students");
                 entity.HasKey(u => u.Id); //primary key
 
                 //regular properties
@@ -38,10 +38,29 @@ namespace DLL
                 entity.HasKey(u => u.Id); //primary key
             });
 
+            modelBuilder.Entity<CourseDTO>(entity =>
+            {
+                entity.ToTable("Courses");
+                entity.HasKey(u => u.Id); //primary key
+
+                //one to many relationship
+                entity.HasOne(d => d.Teacher)
+                .WithMany(u => u.Courses)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Course_Teacher_FK");
+            });
+
+            modelBuilder.Entity<TeacherDTO>(entity =>
+            {
+                entity.ToTable("Teachers");
+                entity.HasKey(u => u.Id); //primary key
+            });
+
             //many to many relationship
-            modelBuilder.Entity<UserDTO>()
+            modelBuilder.Entity<StudentDTO>()
             .HasMany(u => u.Groups)
-            .WithMany(g => g.Users)
+            .WithMany(g => g.Students)
             .UsingEntity(e => e.ToTable("GroupsUsers"));
         }
     }
