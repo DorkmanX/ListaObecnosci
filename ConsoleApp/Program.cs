@@ -41,7 +41,7 @@ public class Program
         GroupDTO newGroup2 = new GroupDTO("Grupa 4");
         newUser.Groups.Add(newGroup);
         newUser.Groups.Add(newGroup2);
-        _dbContext.Users.Add(newUser);
+        _dbContext.Students.Add(newUser);
         _dbContext.SaveChanges();
 
         var user_with_group = _dbContext.Students.Where(x => x.Id == 4).Include(x => x.Groups).FirstOrDefault();

@@ -7,8 +7,12 @@ namespace DLL
     {
         public DBContext() { }
 
-        public virtual DbSet<StudentDTO> Users { get; set; }
+        public virtual DbSet<StudentDTO> Students { get; set; }
         public virtual DbSet<GroupDTO> Groups { get; set; }
+        public virtual DbSet<CourseDTO> Courses { get; set; }
+        public virtual DbSet<LessonDTO> Lessons { get; set; }
+        public virtual DbSet<TeacherDTO> Teachers { get; set; }
+        public virtual DbSet<TimesheetDTO> Timesheets { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,6 +40,13 @@ namespace DLL
             {
                 entity.ToTable("Groups");
                 entity.HasKey(u => u.Id); //primary key
+
+                //one to many relationship
+                entity.HasOne(d => d.Teacher)
+                .WithMany(u => u.Groups)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Group_Teacher_FK");
             });
 
             modelBuilder.Entity<CourseDTO>(entity =>
@@ -49,12 +60,45 @@ namespace DLL
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Course_Teacher_FK");
+
+                //one to many relationship
+                entity.HasOne(d => d.Group)
+                .WithMany(u => u.Courses)
+                .HasForeignKey(d => d.GroupId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Course_Group_FK");
             });
 
             modelBuilder.Entity<TeacherDTO>(entity =>
             {
                 entity.ToTable("Teachers");
                 entity.HasKey(u => u.Id); //primary key
+            });
+
+            modelBuilder.Entity<TimesheetDTO>(entity =>
+            {
+                entity.ToTable("Timesheets");
+                entity.HasKey(u => u.Id); //primary key
+
+                //one to many relationship
+                entity.HasOne(d => d.Student)
+                .WithMany(u => u.Timesheets)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Timesheet_Student_FK");
+            });
+
+            modelBuilder.Entity<LessonDTO>(entity =>
+            {
+                entity.ToTable("Lessons");
+                entity.HasKey(u => u.Id); //primary key
+
+                //one to many relationship
+                entity.HasOne(d => d.Course)
+                .WithMany(u => u.Lessons)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Lesson_Group_FK");
             });
 
             //many to many relationship
@@ -66,6 +110,9 @@ namespace DLL
     }
 }
 /*
+dotnet ef migrations add Databasev1.2
+dotnet ef database update
+
 ONE-TO-MANY RELATIONSHIP
 entity.HasOne(d => d.User)
 .WithMany(u => u.DevicesList)

@@ -4,6 +4,7 @@ using DLL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DLL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230326195744_Databasev1.1")]
+    partial class Databasev11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,30 @@ namespace DLL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DLL.EntityFramework.ClassesDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ClassesDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CourseDTOId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDone")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseDTOId");
+
+                    b.ToTable("ClassesDTO");
+                });
 
             modelBuilder.Entity("DLL.EntityFramework.CourseDTO", b =>
                 {
@@ -79,30 +106,6 @@ namespace DLL.Migrations
                     b.ToTable("Groups", (string)null);
                 });
 
-            modelBuilder.Entity("DLL.EntityFramework.LessonDTO", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LessonDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Lessons", (string)null);
-                });
-
             modelBuilder.Entity("DLL.EntityFramework.StudentDTO", b =>
                 {
                     b.Property<int>("Id")
@@ -156,26 +159,26 @@ namespace DLL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ClassesDTOId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsPresence")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LessonDTOId")
-                        .HasColumnType("int");
-
                     b.Property<float>("Mark")
                         .HasColumnType("real");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LessonDTOId");
+                    b.HasIndex("ClassesDTOId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Timesheets", (string)null);
                 });
@@ -195,13 +198,24 @@ namespace DLL.Migrations
                     b.ToTable("GroupsUsers", (string)null);
                 });
 
+            modelBuilder.Entity("DLL.EntityFramework.ClassesDTO", b =>
+                {
+                    b.HasOne("DLL.EntityFramework.CourseDTO", "CourseDTO")
+                        .WithMany("Classes")
+                        .HasForeignKey("CourseDTOId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseDTO");
+                });
+
             modelBuilder.Entity("DLL.EntityFramework.CourseDTO", b =>
                 {
                     b.HasOne("DLL.EntityFramework.GroupDTO", "Group")
-                        .WithMany("Courses")
+                        .WithMany()
                         .HasForeignKey("GroupId")
-                        .IsRequired()
-                        .HasConstraintName("Course_Group_FK");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DLL.EntityFramework.TeacherDTO", "Teacher")
                         .WithMany("Courses")
@@ -219,38 +233,25 @@ namespace DLL.Migrations
                     b.HasOne("DLL.EntityFramework.TeacherDTO", "Teacher")
                         .WithMany("Groups")
                         .HasForeignKey("TeacherId")
-                        .IsRequired()
-                        .HasConstraintName("Group_Teacher_FK");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("DLL.EntityFramework.LessonDTO", b =>
-                {
-                    b.HasOne("DLL.EntityFramework.CourseDTO", "Course")
-                        .WithMany("Lessons")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("Lesson_Group_FK");
-
-                    b.Navigation("Course");
-                });
-
             modelBuilder.Entity("DLL.EntityFramework.TimesheetDTO", b =>
                 {
-                    b.HasOne("DLL.EntityFramework.LessonDTO", null)
+                    b.HasOne("DLL.EntityFramework.ClassesDTO", null)
                         .WithMany("Timesheets")
-                        .HasForeignKey("LessonDTOId");
+                        .HasForeignKey("ClassesDTOId");
 
-                    b.HasOne("DLL.EntityFramework.StudentDTO", "Student")
-                        .WithMany("Timesheets")
-                        .HasForeignKey("StudentId")
+                    b.HasOne("DLL.EntityFramework.StudentDTO", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("Timesheet_Student_FK");
+                        .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GroupDTOStudentDTO", b =>
@@ -268,24 +269,14 @@ namespace DLL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DLL.EntityFramework.ClassesDTO", b =>
+                {
+                    b.Navigation("Timesheets");
+                });
+
             modelBuilder.Entity("DLL.EntityFramework.CourseDTO", b =>
                 {
-                    b.Navigation("Lessons");
-                });
-
-            modelBuilder.Entity("DLL.EntityFramework.GroupDTO", b =>
-                {
-                    b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("DLL.EntityFramework.LessonDTO", b =>
-                {
-                    b.Navigation("Timesheets");
-                });
-
-            modelBuilder.Entity("DLL.EntityFramework.StudentDTO", b =>
-                {
-                    b.Navigation("Timesheets");
+                    b.Navigation("Classes");
                 });
 
             modelBuilder.Entity("DLL.EntityFramework.TeacherDTO", b =>

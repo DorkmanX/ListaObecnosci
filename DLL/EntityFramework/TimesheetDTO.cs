@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,16 +10,20 @@ namespace DLL.EntityFramework
     public class TimesheetDTO
     {
         public int Id { get; }
-        public DateTime Date { get; }
-        public bool IsPresence { get; }
-        public float Mark { get; }
-        public virtual StudentDTO User { get; }
+        [Required]
+        public DateTime Date { get; set; }
+        [Required]
+        public bool IsPresence { get; set; }
+        [Required]
+        public float Mark { get; set; }
+        public int StudentId { get; set; }
+        public virtual StudentDTO Student { get; set; }
 
         public TimesheetDTO(DateTime date,bool isPresence,float mark) 
         {
-            Date = date;
-            IsPresence = isPresence;
-            Mark = mark;
+            this.Date = date;
+            this.IsPresence = isPresence;
+            this.Mark = mark;
         }
     }
 }
