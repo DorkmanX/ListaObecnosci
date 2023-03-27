@@ -112,13 +112,19 @@ namespace DLL
 /*
 dotnet ef migrations add Databasev1.2
 dotnet ef database update
+ONE-TO-ONE RELATIONSHIP
+  modelBuilder.Entity<PolicyMapping>()
+    .HasOne(x => x.PolicyA)
+    .WithOne()
+    .HasForeignKey<PolicyMapping>(p => p.PolicyAId)
+    .OnDelete(DeleteBehavior.Restrict);
 
 ONE-TO-MANY RELATIONSHIP
 entity.HasOne(d => d.User)
-.WithMany(u => u.DevicesList)
-.HasForeignKey(d => d.OwnerId)
-.OnDelete(DeleteBehavior.Cascade)
-.HasConstraintName("Devices_FK");
+    .WithMany(u => u.DevicesList)
+    .HasForeignKey(d => d.OwnerId)
+    .OnDelete(DeleteBehavior.Cascade)
+    .HasConstraintName("Devices_FK");
 */
 
 /*
