@@ -29,9 +29,8 @@ namespace DLL
             modelBuilder.Entity<StudentDTO>(entity =>
             {
                 entity.ToTable("Students");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
 
-                //regular properties
                 entity.Property(u => u.Id).HasColumnName("ID");
                 entity.Property(u => u.Name).HasColumnName("Name");
                 entity.Property(u => u.Surname).HasColumnName("Surname");
@@ -40,9 +39,8 @@ namespace DLL
             modelBuilder.Entity<GroupDTO>(entity =>
             {
                 entity.ToTable("Groups");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
 
-                //one to many relationship
                 entity.HasOne(d => d.Teacher)
                 .WithMany(u => u.Groups)
                 .HasForeignKey(d => d.TeacherId)
@@ -53,16 +51,14 @@ namespace DLL
             modelBuilder.Entity<CourseDTO>(entity =>
             {
                 entity.ToTable("Courses");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
 
-                //one to many relationship
                 entity.HasOne(d => d.Teacher)
                 .WithMany(u => u.Courses)
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Course_Teacher_FK");
 
-                //one to many relationship
                 entity.HasOne(d => d.Group)
                 .WithMany(u => u.Courses)
                 .HasForeignKey(d => d.GroupId)
@@ -73,15 +69,14 @@ namespace DLL
             modelBuilder.Entity<TeacherDTO>(entity =>
             {
                 entity.ToTable("Teachers");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
             });
 
             modelBuilder.Entity<TimesheetDTO>(entity =>
             {
                 entity.ToTable("Timesheets");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
 
-                //one to many relationship
                 entity.HasOne(d => d.Student)
                 .WithMany(u => u.Timesheets)
                 .HasForeignKey(d => d.StudentId)
@@ -92,9 +87,8 @@ namespace DLL
             modelBuilder.Entity<LessonDTO>(entity =>
             {
                 entity.ToTable("Lessons");
-                entity.HasKey(u => u.Id); //primary key
+                entity.HasKey(d => d.Id);
 
-                //one to many relationship
                 entity.HasOne(d => d.Course)
                 .WithMany(u => u.Lessons)
                 .HasForeignKey(d => d.CourseId)
@@ -102,7 +96,30 @@ namespace DLL
                 .HasConstraintName("Lesson_Group_FK");
             });
 
-            //many to many relationship
+            modelBuilder.Entity<MarkDTO>(entity =>
+            {
+                entity.ToTable("Marks");
+                entity.HasKey(d => d.Id);
+
+                entity.HasOne(d => d.Student)
+                .WithMany(u => u.Marks)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Marks_Student_FK");
+
+                 entity.HasOne(d => d.Course)
+                .WithMany(u => u.Marks)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Marks_Course_FK");
+
+                 entity.HasOne(d => d.Group)
+                .WithMany(u => u.Marks)
+                .HasForeignKey(d => d.GroupId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Marks_Group_FK");
+            });
+
             modelBuilder.Entity<StudentDTO>()
             .HasMany(u => u.Groups)
             .WithMany(g => g.Students)

@@ -34,14 +34,14 @@ namespace DLL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -69,7 +69,7 @@ namespace DLL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -101,6 +101,40 @@ namespace DLL.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons", (string)null);
+                });
+
+            modelBuilder.Entity("DLL.EntityFramework.MarkDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Marks", (string)null);
                 });
 
             modelBuilder.Entity("DLL.EntityFramework.StudentDTO", b =>
@@ -165,9 +199,6 @@ namespace DLL.Migrations
                     b.Property<int?>("LessonDTOId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Mark")
-                        .HasColumnType("real");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
@@ -200,13 +231,11 @@ namespace DLL.Migrations
                     b.HasOne("DLL.EntityFramework.GroupDTO", "Group")
                         .WithMany("Courses")
                         .HasForeignKey("GroupId")
-                        .IsRequired()
                         .HasConstraintName("Course_Group_FK");
 
                     b.HasOne("DLL.EntityFramework.TeacherDTO", "Teacher")
                         .WithMany("Courses")
                         .HasForeignKey("TeacherId")
-                        .IsRequired()
                         .HasConstraintName("Course_Teacher_FK");
 
                     b.Navigation("Group");
@@ -219,7 +248,6 @@ namespace DLL.Migrations
                     b.HasOne("DLL.EntityFramework.TeacherDTO", "Teacher")
                         .WithMany("Groups")
                         .HasForeignKey("TeacherId")
-                        .IsRequired()
                         .HasConstraintName("Group_Teacher_FK");
 
                     b.Navigation("Teacher");
@@ -235,6 +263,36 @@ namespace DLL.Migrations
                         .HasConstraintName("Lesson_Group_FK");
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("DLL.EntityFramework.MarkDTO", b =>
+                {
+                    b.HasOne("DLL.EntityFramework.CourseDTO", "Course")
+                        .WithMany("Marks")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("Marks_Course_FK");
+
+                    b.HasOne("DLL.EntityFramework.GroupDTO", "Group")
+                        .WithMany("Marks")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("Marks_Group_FK");
+
+                    b.HasOne("DLL.EntityFramework.StudentDTO", "Student")
+                        .WithMany("Marks")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("Marks_Student_FK");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("DLL.EntityFramework.TimesheetDTO", b =>
@@ -271,11 +329,15 @@ namespace DLL.Migrations
             modelBuilder.Entity("DLL.EntityFramework.CourseDTO", b =>
                 {
                     b.Navigation("Lessons");
+
+                    b.Navigation("Marks");
                 });
 
             modelBuilder.Entity("DLL.EntityFramework.GroupDTO", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("Marks");
                 });
 
             modelBuilder.Entity("DLL.EntityFramework.LessonDTO", b =>
@@ -285,6 +347,8 @@ namespace DLL.Migrations
 
             modelBuilder.Entity("DLL.EntityFramework.StudentDTO", b =>
                 {
+                    b.Navigation("Marks");
+
                     b.Navigation("Timesheets");
                 });
 

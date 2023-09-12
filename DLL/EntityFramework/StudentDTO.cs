@@ -9,19 +9,17 @@ namespace DLL.EntityFramework
 {
     public class StudentDTO
     {
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Surname { get; set; }
-        public virtual IList<TimesheetDTO> Timesheets { get; set; }
-        public virtual IList<GroupDTO> Groups { get; set; }
-
-        public StudentDTO(string name, string surname)
-        {
-            this.Groups = new List<GroupDTO>();
-            this.Timesheets = new List<TimesheetDTO>();
-            this.Name = name; this.Surname = surname;
+        [Key] public int Id { get; set; }
+        [Required] public string Name { get; set; }
+        [Required] public string Surname { get; set; }
+        public virtual ICollection<TimesheetDTO> Timesheets { get; set; }
+        public virtual ICollection<GroupDTO> Groups { get; set; }
+        public virtual ICollection<MarkDTO> Marks { get; set; }
+        public StudentDTO() 
+        { 
+            Timesheets = new HashSet<TimesheetDTO>();
+            Groups = new HashSet<GroupDTO>();
+            Marks = new HashSet<MarkDTO>();
         }
     }
 }
