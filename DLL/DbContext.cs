@@ -18,10 +18,12 @@ namespace DLL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost;Initial Catalog=ListaObecnosciDB;User Id = sa; Password = uibrotho3421;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Server=localhost;Initial Catalog=ListaObecnosciDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
                 //FOR DESKTOP "Server=DESKTOP-S4TPVIB;Initial Catalog=ListaObecnosciDB;User Id = sa; Password = sql_vwmp034;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
                 //FOR LAPTOP "Server=DELLINSPIRON15;Initial Catalog=ListaObecnosciDB;User Id = sa; Password = uibrotho3421;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
                 //FOR COMPANY LAPTOP "Server=localhost;Database=ListaObecnosciDB;Trusted_Connection=False;User Id = sa; Password= uibrotho3421; Persist Security Info=True;"
+                //dotnet ef migrations add DatabaseV1
+                //dotnet ef database update
             }
         }
 
@@ -128,35 +130,6 @@ namespace DLL
         }
     }
 }
-/*
-dotnet ef migrations add Databasev1.2
-dotnet ef database update
-ONE-TO-ONE RELATIONSHIP
-  modelBuilder.Entity<PolicyMapping>()
-    .HasOne(x => x.PolicyA)
-    .WithOne()
-    .HasForeignKey<PolicyMapping>(p => p.PolicyAId)
-    .OnDelete(DeleteBehavior.Restrict);
 
-ONE-TO-MANY RELATIONSHIP
-entity.HasOne(d => d.User)
-    .WithMany(u => u.DevicesList)
-    .HasForeignKey(d => d.OwnerId)
-    .OnDelete(DeleteBehavior.Cascade)
-    .HasConstraintName("Devices_FK");
-*/
-
-/*
-entity.HasIndex(u => u.Surname).HasDatabaseName("Login_idx").IsUnique(); //unique index
-.IsRequired().HasMaxLength(32).IsUnique
-entity.HasIndex(e => new { e.LineId, e.ModelGroupId }).HasName("IX_Cycle").IsUnique();
-.ValueGeneratedOnAdd(); to jest do intentity
-modelBuilder.Entity<Student>()
-            .Property(s => s.CreatedDate)
-            .HasDefaultValueSql("GETDATE()");
-entity.HasOne(d => d.Recipient)
-                    .WithMany(p => p.DeliveryAlertRecipient)
-                    .HasForeignKey(d => d.RecipientId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("DeliveryAlert_User_ID_fk_3");
-*/
+//dotnet ef migrations add DatabaseV1
+//dotnet ef database update

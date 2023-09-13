@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DLL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class DatabaseV1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,9 @@ namespace DLL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,6 +133,41 @@ namespace DLL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Marks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Mark = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Marks", x => x.Id);
+                    table.ForeignKey(
+                        name: "Marks_Course_FK",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "Marks_Group_FK",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "Marks_Student_FK",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Timesheets",
                 columns: table => new
                 {
@@ -138,7 +175,6 @@ namespace DLL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPresence = table.Column<bool>(type: "bit", nullable: false),
-                    Mark = table.Column<float>(type: "real", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     LessonDTOId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -184,6 +220,21 @@ namespace DLL.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Marks_CourseId",
+                table: "Marks",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Marks_GroupId",
+                table: "Marks",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Marks_StudentId",
+                table: "Marks",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Timesheets_LessonDTOId",
                 table: "Timesheets",
                 column: "LessonDTOId");
@@ -199,6 +250,9 @@ namespace DLL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "GroupsUsers");
+
+            migrationBuilder.DropTable(
+                name: "Marks");
 
             migrationBuilder.DropTable(
                 name: "Timesheets");
