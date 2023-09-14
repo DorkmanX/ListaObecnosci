@@ -181,7 +181,7 @@ namespace BLL
                 Console.WriteLine("Lista zajęć: ");
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                         " Nauczyciel prowadzący: " + (course?.Teacher?.Name) + " " + (course?.Teacher?.Surname) 
                         + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
@@ -234,7 +234,7 @@ namespace BLL
                     Console.WriteLine("Lista studentów przypisanych do grupy: ");
                     foreach (StudentDTO student in group?.Students ?? new List<StudentDTO>())
                     {
-                        Console.WriteLine("ID: " + student.Id + " Name: " + student.Name + " Surname: " + student.Surname);
+                        Console.WriteLine("ID: " + student.Id + " Imię: " + student.Name + " Nazwisko: " + student.Surname);
                     }
                 }
                 return true;
@@ -264,7 +264,7 @@ namespace BLL
                     {
                         foreach (var student in students)
                         {
-                            Console.WriteLine("ID: " + student.Id + " Nazwa" + student.Name + " " + student.Surname);
+                            Console.WriteLine("ID: " + student.Id + " Nazwa " + student.Name + " " + student.Surname);
                         }
                     }
                     else
@@ -375,7 +375,7 @@ namespace BLL
             {
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                         " Nauczyciel prowadzący: " + (course?.Teacher?.Name ?? " Nieprzypisany ") + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
                 Console.WriteLine("Wybierz ID kursu");
@@ -391,7 +391,7 @@ namespace BLL
                     }
                     foreach(LessonDTO lesson in lessons)
                     {
-                        Console.WriteLine("ID: " + lesson.Id + "Data: " + lesson.LessonDate.ToString());
+                        Console.WriteLine("ID: " + lesson.Id + " Data: " + lesson.LessonDate.ToString());
                     }
 
                     Console.WriteLine("Wybierz ID zajęć");
@@ -407,7 +407,7 @@ namespace BLL
 
                     foreach (StudentDTO student in students)
                     {
-                        Console.WriteLine("ID: " + student.Id + " Name: " + student.Name + " Surname: " + student.Surname);
+                        Console.WriteLine("ID: " + student.Id + " Imię: " + student.Name + " Nazwisko: " + student.Surname);
                         Console.WriteLine("Obecny ? Wpisz true jeżeli tak inaczej false");
                         bool presence = Convert.ToBoolean(Console.ReadLine());
                         TimesheetDTO timesheetDTO = new TimesheetDTO()
@@ -442,7 +442,7 @@ namespace BLL
             {
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                         " Nauczyciel prowadzący: " + (course?.Teacher?.Name ?? " Nieprzypisany ") + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
                 Console.WriteLine("Wybierz ID kursu");
@@ -506,7 +506,7 @@ namespace BLL
             {
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                         " Nauczyciel prowadzący: " + (course?.Teacher?.Name ?? " Nieprzypisany ") + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
                 Console.WriteLine("Wybierz ID kursu");
@@ -569,7 +569,7 @@ namespace BLL
             {
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                         " Nauczyciel prowadzący: " + (course?.Teacher?.Name ?? " Nieprzypisany ") + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
                 Console.WriteLine("Wybierz ID kursu");
@@ -629,7 +629,7 @@ namespace BLL
             {
                 foreach (CourseDTO course in courses)
                 {
-                    Console.WriteLine("ID: " + course.Id + " Name: " + course.Name + " Opis: " + course.Description +
+                    Console.WriteLine("ID: " + course.Id + " Nazwa: " + course.Name + " Opis: " + course.Description +
                     " Nauczyciel prowadzący: " + (course?.Teacher?.Name ?? " Nieprzypisany ") + " Grupa zajęciowa: " + course?.Group?.Name ?? "Nieprzypisana ");
                 }
                 Console.WriteLine("Wybierz ID kursu");

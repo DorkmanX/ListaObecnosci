@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLL", "DLL\DLL.csproj", "{D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{46B7DF17-FFA9-4485-B55B-98444FB87C25}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ListaObecności", "ListaObecności\ListaObecności.vdproj", "{72B30A57-E51B-4820-AED8-F4286A56F907}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,8 +27,6 @@ Global
 		{46B7DF17-FFA9-4485-B55B-98444FB87C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46B7DF17-FFA9-4485-B55B-98444FB87C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46B7DF17-FFA9-4485-B55B-98444FB87C25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72B30A57-E51B-4820-AED8-F4286A56F907}.Debug|Any CPU.ActiveCfg = Debug
-		{72B30A57-E51B-4820-AED8-F4286A56F907}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

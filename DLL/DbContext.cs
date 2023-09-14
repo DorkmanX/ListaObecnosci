@@ -1,5 +1,6 @@
 ﻿using DLL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace DLL
 {

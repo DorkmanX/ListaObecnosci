@@ -2,6 +2,7 @@
 using DLL;
 using DLL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 public class Program
 {
@@ -34,8 +35,8 @@ public class Program
             Console.WriteLine("\nWybierz z listy zadanie");
             Console.WriteLine("1. Dodaj studenta ");
             Console.WriteLine("2. Wyswietl liste studentów ");
-            Console.WriteLine("3. Utwórz zajęcia");
-            Console.WriteLine("4. Wyświetl listę zajęć");
+            Console.WriteLine("3. Utwórz kurs");
+            Console.WriteLine("4. Wyświetl listę kursów");
             Console.WriteLine("5. Utwórz grupę zajęciową");
             Console.WriteLine("6. Wyświetl liste grup zajęciowych");
             Console.WriteLine("7. Przypisz studenta do grupy zajęciowej");
@@ -45,6 +46,7 @@ public class Program
             Console.WriteLine("11. Sprawdź frekwencję na zajęciach");
             Console.WriteLine("12. Sprawdź oceny indywidualne na zajęciach");
             Console.WriteLine("13. Sprawdź oceny grupowe na zajęciach");
+            Console.WriteLine("14. Zakończ");
 
             Console.Write("Wybierz nr operacji: ");
             operation = Convert.ToInt32(Console.ReadLine());
